@@ -6,6 +6,7 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using EnterDeleter.ViewModels;
 using EnterDeleter.Views;
+using HotAvalonia;
 
 namespace EnterDeleter
 {
@@ -13,6 +14,7 @@ namespace EnterDeleter
     {
         public override void Initialize()
         {
+            this.EnableHotReload();
             AvaloniaXamlLoader.Load(this);
         }
 
