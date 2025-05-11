@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using EnterDeleter.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace EnterDeleter.ViewModels
 {
@@ -40,24 +42,44 @@ namespace EnterDeleter.ViewModels
                 DeleteSymbols();
             }
         }
-
         private void DeleteSymbols()
         {
-            string newText = OldText;
-
-            if (SelectIndexDeleteSymbol != 0)
+            try
             {
-                newText = newText.Replace(StandardDeleteSymbols[SelectIndexDeleteSymbol].Item, string.Empty);
+                string newText = OldText;
+
+                if (!string.IsNullOrEmpty(RegextText))
+                {
+                    try
+                    {
+                        var regex = new Regex(@RegextText);
+                        newText = regex.Replace(newText, "");
+                    }
+                    catch
+                    {
+
+                    }
+                }
+
+                if (SelectIndexDeleteSymbol != 0)
+                {
+                    newText = newText.Replace(StandardDeleteSymbols[SelectIndexDeleteSymbol].Item, string.Empty);
+                }
+
+                if (!string.IsNullOrEmpty(DeleteText))
+                {
+                    newText = newText.Replace(DeleteText, string.Empty);
+                }
+
+                newText = newText.Replace("\r", string.Empty);
+
+                NewText = newText;
+            }
+            catch
+            {
+                NewText = String.Empty;
             }
 
-            if (!string.IsNullOrEmpty(DeleteText))
-            {
-                newText = newText.Replace(DeleteText, string.Empty);
-            }
-
-            newText = newText.Replace("\r", string.Empty);
-
-            NewText = newText;
         }
     }
 }

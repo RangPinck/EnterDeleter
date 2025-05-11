@@ -3,18 +3,54 @@
         xmlns:vm="using:EnterDeleter.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" 
+		d:DesignWidth="800" 
+		d:DesignHeight="450"
+		Width="800"
+		Height="450"
+		MinWidth="220"
+		MinHeight="450"
         x:Class="EnterDeleter.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="avares://EnterDeleter/Assets/logo.ico"
         Title="EnterDeleter">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-	<Grid RowDefinitions="*,*,*">
-		<TextBox Grid.Row="0" Text="{Binding OldText}"></TextBox>
-		<TextBox Grid.Row="1" Text="{Binding DeleteText}"></TextBox>
-		<TextBox Grid.Row="2" Text="{Binding NewText}"></TextBox>
+	<Grid RowDefinitions="*,8*" Margin="10">
+		<Grid Grid.Row="0" ColumnDefinitions="*,10,*,10,*">
+			<StackPanel Grid.Column="0" >
+				<TextBlock Text="Deleted text:"></TextBlock>
+				<TextBox Text="{Binding DeleteText}"></TextBox>
+			</StackPanel>
+			<StackPanel Grid.Column="2" >
+				<TextBlock Text="Regex:"></TextBlock>
+				<TextBox Text="{Binding RegextText}"></TextBox>
+			</StackPanel>
+			<StackPanel Grid.Column="5" Width="250" HorizontalAlignment="Right">
+				<TextBlock Text="Another symbols:"></TextBlock>
+				<ComboBox ItemsSource="{Binding StandardDeleteSymbols}" SelectedIndex="{Binding SelectIndexDeleteSymbol}" MinWidth="250">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<Grid ColumnDefinitions="*,*">
+								<TextBlock Grid.Column="0" Text="{Binding Title}" HorizontalAlignment="Left"></TextBlock>
+								<TextBlock Grid.Column="1" Text="{Binding ItemShow}" HorizontalAlignment="Right"></TextBlock>
+							</Grid>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+			</StackPanel>
+		</Grid>
+		<Grid Grid.Row="1" ColumnDefinitions="*,20,*">
+			<Grid RowDefinitions="30, *" Grid.Column="0">
+				<TextBlock Text="Old text:" Grid.Row="0"></TextBlock>
+				<TextBox Text="{Binding OldText}" Grid.Row="1" AcceptsTab="True" Watermark="Old text..." TextWrapping="Wrap"></TextBox>
+			</Grid>
+			<Grid RowDefinitions="30, *" Grid.Column="2">
+				<TextBlock Text="New text:" Grid.Row="0"></TextBlock>
+				<TextBox Text="{Binding NewText}" Grid.Row="1" AcceptsTab="True" Watermark="New text..." IsReadOnly="True" TextWrapping="Wrap"></TextBox>
+			</Grid>
+		</Grid>
 	</Grid>
 </Window>
